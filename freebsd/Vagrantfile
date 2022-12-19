@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "app" do |app|
     app.vm.box = "generic/freebsd13"
     app.vm.hostname = "app.test"
-    app.vm.network :private_network, ip: "192.168.70.4"
+    app.vm.network :private_network, ip: "192.168.60.50"
   end
 
 end
