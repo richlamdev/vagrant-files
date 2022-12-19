@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |centosconfig|
+  # General Vagrant VM configuration.
+  centosconfig.ssh.insert_key = false
+  centosconfig.vm.synced_folder ".", "/vagrant", disabled: true
+  centosconfig.vm.provider :virtualbox do |v|
+    v.memory = 512
+    v.linked_clone = true
+  end
+
+  # application server
+  centosconfig.vm.define "app" do |app|
+    app.vm.box = "geerlingguy/centos7"
+    app.vm.hostname = "app.test"
+    app.vm.network :private_network, ip: "192.168.60.4"
+  end
+
+
+  # mozilla observatory scanner server 
+  centosconfig.vm.define "scanner" do |scanner|
+    scanner.vm.box = "geerlingguy/centos7"
+    scanner.vm.hostname = "scanner.test"
+    scanner.vm.network :private_network, ip: "192.168.60.5"
+  end
+
+end
+
+#Vagrant.configure(VAGRANTFILE_API_VERSION) do |ubuntuconfig|
+#  ubuntuconfig.ssh.insert_key = false
+#  ubuntuconfig.vm.synced_folder ".", "/vagrant", disabled: true
+#  ubuntuconfig.vm.provider :virtualbox do |v|
+#    v.memory = 512
+#    v.linked_clone = true
+#  end
+#
+#  # vault server-1
+#  ubuntuconfig.vm.define "vault1" do |vault1|
+#    vault1.vm.box = "geerlingguy/ubuntu2004"
+#    vault1.vm.hostname = "vault1.test"
+#    vault1.vm.network :private_network, ip: "192.168.60.6"
+#  end
+#
+#
+#  # vault server-2
+#  ubuntuconfig.vm.define "vault2" do |vault2|
+#    vault2.vm.box = "geerlingguy/ubuntu2004"
+#    vault2.vm.hostname = "vault2.test"
+#    vault2.vm.network :private_network, ip: "192.168.60.7"
+#  end
+#
+#end
