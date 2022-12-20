@@ -13,6 +13,7 @@ ssh-keygen -f "/home/$USER/.ssh/known_hosts" -R "192.168.60.50"
 # 3) Normal users should be provisioned access via SSH key, after python3 is installed on FreeBSD
 # 4) The root user password should be much longer and complex!
 ssh vagrant@192.168.60.50 -i ~/.vagrant.d/insecure_private_key -o "StrictHostKeyChecking no" 'echo -e "password1\npassword1" | sudo passwd root'
+ssh vagrant@192.168.60.50 -i ~/.vagrant.d/insecure_private_key -o "StrictHostKeyChecking no" 'sudo pw usermod vagrant -G wheel'
 #ssh vagrant@192.168.13.202 -i ~/.vagrant.d/insecure_private_key -o "StrictHostKeyChecking no" 'echo -e "password1\npassword1" | sudo passwd root'
 #ssh vagrant@192.168.13.210 -i ~/.vagrant.d/insecure_private_key -o "StrictHostKeyChecking no" 'echo -e "password1\npassword1" | sudo passwd root'
 
