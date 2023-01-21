@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |openbsdconfig|
+  # General Vagrant VM configuration.
+  openbsdconfig.ssh.insert_key = false
+  openbsdconfig.vm.synced_folder ".", "/vagrant", disabled: true
+  openbsdconfig.vm.provider :virtualbox do |v|
+    v.memory = 512
+    v.linked_clone = true
+  end
+
+  openbsdconfig.vm.define "japan" do |japan|
+    japan.vm.box = "generic/openbsd7"
+    japan.vm.hostname = "japan.test"
+    japan.vm.network :private_network, ip: "192.168.56.20"
+    japan.vm.network :private_network, ip: "192.168.60.1"
+
+  end
+
+end
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |freebsdconfig|
+  # General Vagrant VM configuration.
+  freebsdconfig.ssh.insert_key = false
+  freebsdconfig.vm.synced_folder ".", "/vagrant", disabled: true
+  freebsdconfig.vm.provider :virtualbox do |v|
+    v.memory = 512
+    v.linked_clone = true
+  end
+
+  # application server
+  freebsdconfig.vm.define "app" do |app|
+    app.vm.box = "generic/freebsd13"
+    app.vm.hostname = "app.test"
+    app.vm.network :private_network, ip: "192.168.60.50"
+  end
+
+end
+
