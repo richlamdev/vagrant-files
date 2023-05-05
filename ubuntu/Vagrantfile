@@ -7,13 +7,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |ubuntuconfig|
   ubuntuconfig.ssh.insert_key = false
   ubuntuconfig.vm.synced_folder ".", "/vagrant", disabled: true
   ubuntuconfig.vm.provider :virtualbox do |v|
-    v.memory = 512
+    v.customize ["modifyvm", :id, "--cableconnected0", "on"]
+    v.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    v.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+    v.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+    v.memory = 2048
     v.linked_clone = true
   end
 
   # vault server-1
   ubuntuconfig.vm.define "webserver1" do |webserver1|
-    webserver1.vm.box = "generic/ubuntu2004"
+    webserver1.vm.box = "generic/ubuntu2204"
     webserver1.vm.hostname = "webserver1.test"
     webserver1.vm.network :private_network, ip: "192.168.60.6"
   end
