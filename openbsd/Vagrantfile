@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |openbsdconfig|
   openbsdconfig.vm.define "japan" do |japan|
     japan.vm.box = "generic/openbsd7"
     japan.vm.hostname = "japan.test"
-    japan.vm.network :public_network, bridge: "enp85s0", ip: "192.168.13.201"
+    japan.vm.network :public_network, bridge: "enp37s0", ip: "192.168.13.201"
   end
 
   #openbsdconfig.vm.define "india" do |india|
@@ -32,6 +32,8 @@ end
 
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |ubuntuconfig|
+  ubuntuconfig.ssh.username = "vagrant"
+  ubuntuconfig.ssh.password = "vagrant"
   ubuntuconfig.ssh.insert_key = false
   ubuntuconfig.vm.synced_folder ".", "/vagrant", disabled: true
   ubuntuconfig.vm.provider :virtualbox do |v|
@@ -41,13 +43,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |ubuntuconfig|
     v.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
     v.memory = 2048
     v.linked_clone = true
+    v.gui = true
   end
 
   # client
   ubuntuconfig.vm.define "client" do |client|
     client.vm.box = "generic/ubuntu2204"
     client.vm.hostname = "client.test"
-    client.vm.network :public_network, bridge: "enp85s0", ip: "192.168.13.210"
+    client.vm.network :public_network, bridge: "enp37s0", ip: "192.168.13.210"
   end
 
 end
